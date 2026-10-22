@@ -55,11 +55,49 @@ test('resizes and downloads a generated PNG in the browser', async ({ page }) =>
 test('opens command search from the keyboard and navigates by synonym', async ({ page }) => {
   await page.goto('/en/')
   await page.waitForLoadState('networkidle')
-  await page.keyboard.press('Control+K')
+  await page.getByRole('button', { name: 'Open tool search' }).press('Control+K')
   const dialog = page.getByRole('dialog', { name: 'What do you need to do?' })
   await expect(dialog).toBeVisible()
   await dialog.getByRole('combobox').fill('scale picture')
   await expect(dialog.getByRole('option', { name: /Resize image/ })).toBeVisible()
   await dialog.getByRole('combobox').press('Enter')
   await expect(page).toHaveURL(/\/en\/image\/resize-image$/)
+})
+
+test('provides a useful mobile search empty state and restores the command dialog', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 })
+  await page.goto('/en/')
+  await page.waitForLoadState('networkidle')
+
+  const searchButton = page.getByRole('button', { name: 'Open tool search' })
+  await expect(searchButton).toBeVisible()
+  await searchButton.click()
+
+  const dialog = page.getByRole('dialog', { name: 'What do you need to do?' })
+  const input = dialog.getByRole('combobox')
+  await expect(input).toBeFocused()
+  await input.fill('merge spreadsheet')
+  await expect(dialog.getByText('No matching tool')).toBeVisible()
+  await input.press('Escape')
+  await expect(dialog).not.toBeVisible()
+
+  await searchButton.click()
+  await expect(dialog.getByRole('combobox')).toBeFocused()
+  await expect(dialog.getByRole('option', { name: /Resize image/ })).toBeVisible()
+
+  const hasHorizontalOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth)
+  expect(hasHorizontalOverflow).toBe(false)
+})
+
+test('shows invalid upload feedback before an image is selected', async ({ page }) => {
+  await page.goto('/en/image/resize-image')
+  await page.waitForLoadState('networkidle')
+  await page.getByLabel('Choose image file').setInputFiles({
+    name: 'notes.txt',
+    mimeType: 'text/plain',
+    buffer: Buffer.from('not an image'),
+  })
+
+  await expect(page.getByRole('alert')).toContainText('Choose a JPG, PNG, or WebP image')
+  await expect(page.getByText('Drop an image here')).toBeVisible()
 })
