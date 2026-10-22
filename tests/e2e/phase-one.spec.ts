@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
 test('resizes and downloads a generated PNG in the browser', async ({ page }) => {
   await page.goto('/en/image/resize-image')
   await page.waitForLoadState('networkidle')
-  await page.locator('input[type="file"]').setInputFiles({
+  await page.getByLabel('Choose image file').setInputFiles({
     name: 'fixture.png',
     mimeType: 'image/png',
     buffer: onePixelPng,

@@ -35,6 +35,8 @@ The app runs at `http://localhost:3000`. The `.env` copy is optional for local d
 
 Set `NUXT_PUBLIC_SITE_URL` to the verified absolute public origin for a production build. Do not publish with the localhost fallback because canonical and sitemap URLs use this value.
 
+To run the browser suite against an already-running development server, set its origin explicitly: `PLAYWRIGHT_BASE_URL=http://127.0.0.1:3000 pnpm test:e2e`.
+
 ## Quality checks
 
 ```bash

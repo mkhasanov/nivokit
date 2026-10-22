@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="p-5 sm:p-7">
-      <input ref="fileInput" class="sr-only" type="file" :accept="acceptedFormats" @change="handleFileInput">
+      <input ref="fileInput" class="sr-only" type="file" aria-label="Choose image file" :accept="acceptedFormats" @change="handleFileInput">
       <button
         v-if="!selectedFile"
         type="button"
