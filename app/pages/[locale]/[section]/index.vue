@@ -43,16 +43,17 @@ usePageSeo(seo)
     </article>
   </div>
 
-  <div v-else-if="category" class="container-shell py-12 sm:py-20">
+  <div v-else-if="category" class="container-shell py-8 sm:py-14">
     <nav class="text-sm text-muted" aria-label="Breadcrumb">
       <ol class="flex items-center gap-2"><li><NuxtLink class="focus-ring rounded hover:text-ink" :to="`/${locale}/`">Home</NuxtLink></li><li aria-hidden="true">/</li><li aria-current="page">{{ category.locales[locale].name }}</li></ol>
     </nav>
-    <div class="mt-8 max-w-2xl">
+    <div class="mt-7 max-w-2xl">
       <p class="eyebrow">Browse tools</p>
-      <h1 class="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">{{ category.locales[locale].name }}</h1>
-      <p class="mt-5 text-lg leading-8 text-muted">{{ category.locales[locale].description }}</p>
+      <h1 class="mt-3 text-4xl font-bold tracking-[-0.035em] sm:text-5xl">{{ category.locales[locale].name }}</h1>
+      <p class="mt-4 text-base leading-7 text-muted sm:text-lg">{{ category.locales[locale].description }}</p>
+      <p class="mt-3 text-sm font-semibold text-muted-strong">{{ categoryTools.length }} available {{ categoryTools.length === 1 ? 'tool' : 'tools' }}</p>
     </div>
-    <div class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       <ToolCard v-for="tool in categoryTools" :key="tool.id" :tool="tool" :locale="locale" />
     </div>
   </div>

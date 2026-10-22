@@ -9,43 +9,46 @@
   --color-panel-strong: var(--panel-strong);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
+  --color-muted-strong: var(--muted-strong);
   --color-line: var(--line);
   --color-brand: var(--brand);
   --color-brand-strong: var(--brand-strong);
   --color-brand-soft: var(--brand-soft);
   --color-danger: var(--danger);
   --font-sans: "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --shadow-soft: 0 18px 50px -28px rgb(16 35 27 / 0.24);
-  --shadow-card: 0 1px 2px rgb(16 35 27 / 0.05), 0 14px 34px -26px rgb(16 35 27 / 0.28);
+  --shadow-soft: 0 24px 60px -32px rgb(13 35 25 / 0.28);
+  --shadow-card: 0 1px 2px rgb(13 35 25 / 0.06), 0 16px 36px -28px rgb(13 35 25 / 0.32);
 }
 
 :root {
   color-scheme: light;
-  --canvas: #f7f8f6;
-  --canvas-soft: #eef2ee;
+  --canvas: #f8faf8;
+  --canvas-soft: #f0f4f1;
   --panel: #ffffff;
   --panel-strong: #fbfcfb;
-  --ink: #142019;
-  --muted: #5f6f66;
-  --line: #dce4de;
-  --brand: #137a51;
-  --brand-strong: #0b5d3c;
-  --brand-soft: #dff5e9;
+  --ink: #132019;
+  --muted: #617068;
+  --muted-strong: #45544b;
+  --line: #dbe4dd;
+  --brand: #0f7a4f;
+  --brand-strong: #075f3b;
+  --brand-soft: #ddf4e7;
   --danger: #b42318;
 }
 
 .dark {
   color-scheme: dark;
-  --canvas: #101411;
-  --canvas-soft: #171d19;
-  --panel: #1a211c;
+  --canvas: #0e1310;
+  --canvas-soft: #151b17;
+  --panel: #19201b;
   --panel-strong: #202822;
   --ink: #eef5f0;
-  --muted: #a6b5ab;
-  --line: #303b33;
-  --brand: #51c58a;
-  --brand-strong: #7ad9a5;
-  --brand-soft: #173f2b;
+  --muted: #a7b6ac;
+  --muted-strong: #c6d1ca;
+  --line: #303c34;
+  --brand: #56cc91;
+  --brand-strong: #79dca8;
+  --brand-soft: #173f2a;
   --danger: #ff8d84;
 }
 
@@ -56,6 +59,7 @@ html {
 
 body {
   min-width: 320px;
+  min-height: 100vh;
   background: var(--canvas);
   color: var(--ink);
   font-family: var(--font-sans);
@@ -75,6 +79,10 @@ select {
   -webkit-tap-highlight-color: transparent;
 }
 
+input[type="search"]::-webkit-search-cancel-button {
+  appearance: none;
+}
+
 button:not(:disabled),
 [role="button"]:not([aria-disabled="true"]) {
   cursor: pointer;
@@ -82,7 +90,7 @@ button:not(:disabled),
 
 @layer components {
   .container-shell {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[1200px] px-4 sm:px-6 lg:px-8;
   }
 
   .focus-ring {
@@ -90,19 +98,23 @@ button:not(:disabled),
   }
 
   .surface-card {
-    @apply rounded-3xl border border-line bg-panel shadow-card;
+    @apply rounded-2xl border border-line bg-panel shadow-card sm:rounded-3xl;
   }
 
   .eyebrow {
-    @apply text-xs font-semibold tracking-[0.16em] text-brand uppercase;
+    @apply text-xs font-bold tracking-[0.14em] text-brand uppercase;
+  }
+
+  .section-title {
+    @apply text-2xl font-bold tracking-[-0.025em] text-ink sm:text-3xl;
   }
 
   .primary-button {
-    @apply inline-flex min-h-11 items-center justify-center rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition outline-none hover:bg-brand-strong focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:cursor-not-allowed disabled:opacity-50 dark:text-canvas;
+    @apply inline-flex min-h-11 items-center justify-center rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition outline-none hover:bg-brand-strong focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50 dark:text-canvas;
   }
 
   .secondary-button {
-    @apply inline-flex min-h-11 items-center justify-center rounded-xl border border-line bg-panel px-5 py-2.5 text-sm font-semibold text-ink transition outline-none hover:border-brand hover:text-brand focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex min-h-11 items-center justify-center rounded-xl border border-line bg-panel px-5 py-2.5 text-sm font-semibold text-ink shadow-sm transition outline-none hover:border-brand hover:text-brand focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   .field-label {
@@ -110,7 +122,7 @@ button:not(:disabled),
   }
 
   .text-field {
-    @apply min-h-11 w-full rounded-xl border border-line bg-panel px-3.5 py-2.5 text-ink outline-none placeholder:text-muted/70 hover:border-muted focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-canvas;
+    @apply min-h-11 w-full rounded-xl border border-line bg-panel px-3.5 py-2.5 text-ink outline-none placeholder:text-muted/70 hover:border-muted focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-brand/30;
   }
 }
 
